@@ -1,2 +1,2 @@
 # dev-radar 🗺️
-localizador de desenvolvedores por geolocalização
+🗺️ localizador de desenvolvedores por geolocalização
