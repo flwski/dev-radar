@@ -5,23 +5,43 @@ module.exports = {
     async index(request, response) {
         const { latitude, longitude, techs } = request.query;
 
-        const techsArray = parseStringAsArray(techs);
+        if (techs !== "") {
 
-        const devs = await Dev.find({
-            techs: {
-                $in: techsArray,
-            },
-            location: {
-                $near: {
-                    $geometry: {
-                        type: 'Point',
-                        coordinates: [longitude, latitude]
-                    },
-                    $maxDistance: 10000,
+            const techsArray = parseStringAsArray(techs);
+
+            const devs = await Dev.find({
+                techs: {
+                    $in: techsArray,
                 },
-            }
-        })
+                location: {
+                    $near: {
+                        $geometry: {
+                            type: 'Point',
+                            coordinates: [longitude, latitude]
+                        },
+                        $maxDistance: 80000,
+                    },
+                }
+            });
+            return response.json({ devs });
+        }
+        else{
+            const techsArray = parseStringAsArray(techs);
 
-        return response.json({ devs });
+            const devs = await Dev.find({               
+                location: {
+                    $near: {
+                        $geometry: {
+                            type: 'Point',
+                            coordinates: [longitude, latitude]
+                        },
+                        $maxDistance: 80000,
+                    },
+                }
+            });
+            return response.json({ devs });
+        }
+
+       
     }
 }
